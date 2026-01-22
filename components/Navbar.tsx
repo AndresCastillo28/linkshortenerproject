@@ -8,14 +8,17 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export function Navbar() {
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // Handle client-side mounting
+  if (!mounted) {
+    if (typeof window !== "undefined") {
+      setMounted(true);
+    }
+  }
 
   return (
     <nav className="border-b border-zinc-200 dark:border-zinc-800">
