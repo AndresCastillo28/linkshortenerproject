@@ -8,8 +8,18 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
+import { useState } from "react";
 
 export function Navbar() {
+  const [mounted, setMounted] = useState(false);
+
+  // Handle client-side mounting
+  if (!mounted) {
+    if (typeof window !== "undefined") {
+      setMounted(true);
+    }
+  }
+
   return (
     <nav className="border-b border-zinc-200 dark:border-zinc-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,29 +31,31 @@ export function Navbar() {
             Link Shortener
           </Link>
 
-          <div className="flex items-center gap-4">
-            <SignedOut>
-              <SignInButton mode="modal">
-                <button className="px-4 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">
-                  Sign In
-                </button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <button className="px-4 py-2 text-sm font-medium bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-900 rounded-md hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <Link
-                href="/dashboard"
-                className="px-4 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
-              >
-                Dashboard
-              </Link>
-              <UserButton />
-            </SignedIn>
-          </div>
+          {mounted && (
+            <div className="flex items-center gap-4">
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button className="px-4 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">
+                    Sign In
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="px-4 py-2 text-sm font-medium bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-900 rounded-md hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors">
+                    Sign Up
+                  </button>
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <Link
+                  href="/dashboard"
+                  className="px-4 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <UserButton />
+              </SignedIn>
+            </div>
+          )}
         </div>
       </div>
     </nav>
